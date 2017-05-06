@@ -1,0 +1,23 @@
+{
+  "name": "testfile",
+  "version": "1.0.0",
+  "description": "Read and write files(xml,json,string)",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://guoshengqiang@coding.i-weather.cn/guoshengqiang/textFile.git"
+  },
+  "keywords": [
+    "file",
+    "xml",
+    "json"
+  ],
+  "author": "guoshengqiang",
+  "license": "ISC",
+  "dependencies": {
+    "xmldom": "^0.1.27"
+  }
+}

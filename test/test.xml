@@ -1,0 +1,7 @@
+<xml 
+    xmlns="a" 
+    xmlns:c="./lite">
+    <child>test</child>
+    <child/>
+    <child/>
+</xml>
