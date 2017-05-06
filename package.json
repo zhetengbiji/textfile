@@ -1,5 +1,5 @@
 {
-  "name": "testfile",
+  "name": "textfile",
   "version": "1.0.0",
   "description": "Read and write files(xml,json,string)",
   "main": "index.js",

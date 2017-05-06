@@ -1,7 +1,7 @@
 # textfile
 ## 引用
 ```
-var textfile = require('testfile')
+var textfile = require('textfile')
 ```
 ## 读取文件
 ```
