@@ -15,14 +15,16 @@ function read(path, type, cb) {
         } else {
             if(type === 'json') {
                 try {
-                    str = JSON.parse(str);
+                    str = JSON.parse(data);
                 } catch(error) {
+                    console.warn(error);
                     str = data;
                 }
             } else if(type === 'xml') {
                 try {
                     str = new DOMParser().parseFromString(data)
                 } catch(error) {
+                    console.warn(error);
                     str = data;
                 }
             } else if(type === 'string') {
