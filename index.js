@@ -45,7 +45,7 @@ function write(path, data, type, cb) {
     }
     if(type === 'json') {
         try {
-            str = JSON.stringify(data)
+            str = JSON.stringify(data, null, 4)
         } catch(error) {
             str = data.toString()
         }
