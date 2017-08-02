@@ -1,6 +1,6 @@
 {
   "name": "textfile",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Read and write files(xml,json,string)",
   "main": "index.js",
   "scripts": {

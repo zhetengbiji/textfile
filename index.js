@@ -1,13 +1,13 @@
 var fs = require('fs');
 var DOMParser = require('xmldom').DOMParser;
 
-function read(path, type, cb) {
+function read(filePath, type, cb) {
     var str = '';
     if(typeof type === 'function') {
         cb = type
         type = 'string'
     }
-    fs.readFile(path, {
+    fs.readFile(filePath, {
         encoding: 'utf-8'
     }, function(err, data) {
         if(err) {
@@ -37,7 +37,7 @@ function read(path, type, cb) {
     });
 }
 
-function write(path, data, type, cb) {
+function write(filePath, data, type, cb) {
     var str = '';
     if(typeof type === 'function') {
         cb = type
@@ -52,9 +52,13 @@ function write(path, data, type, cb) {
     } else if(type === 'xml' || type === 'string') {
         str = data.toString()
     }
-    fs.writeFile(path, str, {
+    fs.writeFile(filePath, str, {
         encoding: 'utf-8'
-    }, cb);
+    }, function(err) {
+        if(typeof cb === 'function') {
+            cb(err, filePath);
+        }
+    });
 }
 var textFile = {
     read,
