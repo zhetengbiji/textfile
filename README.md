@@ -7,12 +7,20 @@ var textfile = require('textfile')
 ```
 textfile.read(file,type,cb)
 ```
+或
+```
+textfile.read(file,type).then(cb)
+```
 * file *必选* 文件路径
 * type *可选* 文件类型（xml/json/string)
-* cb *必选* 回调函数，传入读取到的数据，xml/json类型会转为对象，xml对象操作请参考：[https://www.npmjs.com/package/xmldom](https://www.npmjs.com/package/xmldom)
+* cb *可选* 回调函数，传入读取到的数据，xml/json类型会转为对象，xml对象操作请参考：[https://www.npmjs.com/package/xmldom](https://www.npmjs.com/package/xmldom)
 ## 写入文件
 ```
 textfile.write(file,data,type,cb)
+```
+或
+```
+textfile.write(file,data,type).then(cb)
 ```
 * file *必选* 文件路径
 * data *必选* 要写入的数据

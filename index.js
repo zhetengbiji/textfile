@@ -1,44 +1,47 @@
-var fs = require('fs');
-var DOMParser = require('xmldom').DOMParser;
+var fs = require('fs')
+var DOMParser = require('xmldom').DOMParser
 
 function read(filePath, type, cb) {
-    var str = '';
+    var str = ''
     if(typeof type === 'function') {
         cb = type
         type = 'string'
     }
-    fs.readFile(filePath, {
-        encoding: 'utf-8'
-    }, function(err, data) {
-        if(err) {
-            str = '';
-        } else {
-            if(type === 'json') {
-                try {
-                    str = JSON.parse(data);
-                } catch(error) {
-                    console.warn(error);
-                    str = data;
+    return new Promise((resolve, reject) => {
+        fs.readFile(filePath, {
+            encoding: 'utf-8'
+        }, function(err, data) {
+            if(err) {
+                str = ''
+            } else {
+                if(type === 'json') {
+                    try {
+                        str = JSON.parse(data)
+                    } catch(error) {
+                        console.warn(error)
+                        str = data
+                    }
+                } else if(type === 'xml') {
+                    try {
+                        str = new DOMParser().parseFromString(data)
+                    } catch(error) {
+                        console.warn(error)
+                        str = data
+                    }
+                } else if(type === 'string') {
+                    str = data
                 }
-            } else if(type === 'xml') {
-                try {
-                    str = new DOMParser().parseFromString(data)
-                } catch(error) {
-                    console.warn(error);
-                    str = data;
-                }
-            } else if(type === 'string') {
-                str = data;
             }
-        }
-        if(typeof cb === 'function') {
-            cb(str);
-        }
-    });
+            if(typeof cb === 'function') {
+                cb(str)
+            }
+            resolve()
+        })
+    })
 }
 
 function write(filePath, data, type, cb) {
-    var str = '';
+    var str = ''
     if(typeof type === 'function') {
         cb = type
         type = 'string'
@@ -52,13 +55,16 @@ function write(filePath, data, type, cb) {
     } else if(type === 'xml' || type === 'string') {
         str = data.toString()
     }
-    fs.writeFile(filePath, str, {
-        encoding: 'utf-8'
-    }, function(err) {
-        if(typeof cb === 'function') {
-            cb(err, filePath);
-        }
-    });
+    return new Promise((resolve, reject) => {
+        fs.writeFile(filePath, str, {
+            encoding: 'utf-8'
+        }, function(err) {
+            if(typeof cb === 'function') {
+                cb(err, filePath)
+            }
+            resolve()
+        })
+    })
 }
 var textFile = {
     read,
