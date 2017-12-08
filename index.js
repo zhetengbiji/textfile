@@ -35,7 +35,7 @@ function read(filePath, type, cb) {
             if(typeof cb === 'function') {
                 cb(str)
             }
-            resolve()
+            resolve(str)
         })
     })
 }
@@ -62,7 +62,11 @@ function write(filePath, data, type, cb) {
             if(typeof cb === 'function') {
                 cb(err, filePath)
             }
-            resolve()
+            if(err) {
+                resolve(filePath)
+            } else {
+                reject(err)
+            }
         })
     })
 }
