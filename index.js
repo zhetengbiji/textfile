@@ -63,9 +63,9 @@ function write(filePath, data, type, cb) {
                 cb(err, filePath)
             }
             if(err) {
-                resolve(filePath)
-            } else {
                 reject(err)
+            } else {
+                resolve(filePath)
             }
         })
     })
