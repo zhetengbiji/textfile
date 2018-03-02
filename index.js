@@ -1,12 +1,17 @@
 var fs = require('fs')
 var DOMParser = require('xmldom').DOMParser
-
+var types = {
+    XML: 'XML',
+    JSON: 'JSON',
+    STRING: 'STRING'
+}
 function read(filePath, type, cb) {
     var str = ''
     if(typeof type === 'function') {
         cb = type
         type = 'string'
     }
+    type = type.toUpperCase()
     return new Promise((resolve, reject) => {
         fs.readFile(filePath, {
             encoding: 'utf-8'
@@ -14,21 +19,21 @@ function read(filePath, type, cb) {
             if(err) {
                 str = ''
             } else {
-                if(type === 'json') {
+                if(type === types.JSON) {
                     try {
                         str = JSON.parse(data)
                     } catch(error) {
                         console.warn(error)
                         str = data
                     }
-                } else if(type === 'xml') {
+                } else if(type === types.XML) {
                     try {
                         str = new DOMParser().parseFromString(data)
                     } catch(error) {
                         console.warn(error)
                         str = data
                     }
-                } else if(type === 'string') {
+                } else {
                     str = data
                 }
             }
@@ -46,13 +51,14 @@ function write(filePath, data, type, cb) {
         cb = type
         type = 'string'
     }
-    if(type === 'json') {
+    type = type.toUpperCase()
+    if(type === types.JSON) {
         try {
             str = JSON.stringify(data, null, 4)
         } catch(error) {
             str = data.toString()
         }
-    } else if(type === 'xml' || type === 'string') {
+    } else {
         str = data.toString()
     }
     return new Promise((resolve, reject) => {
