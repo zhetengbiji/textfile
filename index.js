@@ -1,5 +1,7 @@
 var fs = require('fs')
+var path = require('path')
 var DOMParser = require('xmldom').DOMParser
+var makeDir = require('make-dir')
 var types = {
     XML: 'XML',
     JSON: 'JSON',
@@ -61,20 +63,29 @@ function write(filePath, data, type, cb) {
     } else {
         str = data.toString()
     }
-    return new Promise((resolve, reject) => {
-        fs.writeFile(filePath, str, {
-            encoding: 'utf-8'
-        }, function(err) {
+    return makeDir(path.dirname(filePath))
+        .catch(error => {
             if(typeof cb === 'function') {
-                cb(err, filePath)
+                cb(error)
             }
-            if(err) {
-                reject(err)
-            } else {
-                resolve(filePath)
-            }
+            return Promise.reject(error)
         })
-    })
+        .then(() => {
+            return new Promise((resolve, reject) => {
+                fs.writeFile(filePath, str, {
+                    encoding: 'utf-8'
+                }, function(err) {
+                    if(typeof cb === 'function') {
+                        cb(err, filePath)
+                    }
+                    if(err) {
+                        reject(err)
+                    } else {
+                        resolve(filePath)
+                    }
+                })
+            })
+        })
 }
 var textFile = {
     read,
